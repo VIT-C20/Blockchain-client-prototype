@@ -60,7 +60,7 @@ export default class Header extends Component{
     render(){
         return(
             <>
-            <Navbar  expand="md">
+            <Navbar  dark style={{backgroundColor:"#9575cd"}} expand="md">
                 <div className="container">
                     <NavbarToggler onClick={this.toggleNav}><span><i className="fa fa-bars"></i></span></NavbarToggler>
                     <Collapse isOpen={this.state.isNavOpen} navbar>
@@ -77,7 +77,7 @@ export default class Header extends Component{
                         </Nav>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <Button outline onClick={this.toggleModal}>Login</Button>
+                                <Button style={{color:"white"}} outline color="primary" onClick={this.toggleModal}>Add User</Button>
                             </NavItem>
                         </Nav>
                     </Collapse>
@@ -85,7 +85,7 @@ export default class Header extends Component{
             </Navbar>
             
             <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+                <ModalHeader toggle={this.toggleModal}>Add User</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.handleLogin}>
                         <FormGroup>
@@ -101,7 +101,8 @@ export default class Header extends Component{
                                 <Input type="checkbox" name="remember" innerRef={(input)=>this.remember=input}/>Remember me
                             </Label>                    
                         </FormGroup>
-                        <Button type="submit" color="primary" value="submit" onClick={this.handleLogin}>Login</Button>
+                        <Button  type="submit" value="submit" onClick={this.handleLogin}>Add</Button>
+                        
                     </Form>
                 </ModalBody>
             </Modal>

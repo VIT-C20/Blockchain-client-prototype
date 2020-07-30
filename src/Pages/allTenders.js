@@ -2,9 +2,19 @@ import React, { Component } from 'react';
 import TenderCard from '../Components/tenderCard';
 import axios from 'axios';
 
+
 export default class AllTenders extends Component{
   state = {
-    tenders: [],
+    tenders: [
+      {
+        title:"Tender A",
+        description:"This is sample dscription related to tender A",
+      },
+      {
+        title:"TEnder B",
+        description:"This is a sample description related to Tender B"
+      }
+    ],
   }
 
   
@@ -22,17 +32,18 @@ export default class AllTenders extends Component{
     })
     .then(res => {
       console.log(res.data);
-      this.setState({
-        tenders:res.data,
-      })
+      // this.setState({
+      //   tenders:res.data,
+      // })
     }).catch(err => {
+
       console.log(err.message);
     });
   }
 
   render(){
-    const all_tenders = this.state.tenders.map((tender) => {
-      return <TenderCard title={tender.Record.orgChain} description={tender.Record.workDescription}/>
+    const all_tenders  = this.state.tenders.map((tender) => {
+      return <TenderCard title={tender.title} description={tender.description}/>
     });
 
     return (
@@ -43,27 +54,3 @@ export default class AllTenders extends Component{
   }
 };
 
-
-// {
-// 	"fcn":"createTender",
-// 	"peers":["peer0.bidder.tendersys.com","peer0.gov.tendersys.com"],
-// 	"chaincodeName":"tendersys",
-// 	"channelName":"bidChannel",
-// 	"args":[
-// 		"bidResultDate": "Wed Oct 07 2011 20:18:00 GMT+0530",
-// 		"bidSubmissionEndDate": "Wed Oct 08 2011 20:18:00 GMT+0530",
-// 		"bidSubmissionStartDate": "Wed Oct 06 2011 20:18:00 GMT+0530",
-// 		"bidValidity": "180_Days",
-// 		"id": "2",
-// 		"location": "Mumbai",
-// 		"orgChain": "IITB",
-// 		"periodOfWork": "365 Days",
-// 		"productCategory": "Man Power Supply",
-// 		"publishDate": "Wed Oct 05 2011 20:18:00 GMT+0530",
-// 		"tenderRef": "tender",
-// 		"title": "Digital India",
-// 		"winnerBidder": "",
-// 		"workDescription": "Something related to tender 2",
-	
-// 	]
-// }

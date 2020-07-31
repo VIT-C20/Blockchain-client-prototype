@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 
 export default class ApplyTender extends Component{
     state = {
+        key:"",
         title:"",
         organizationName:"",
         tenderCategory:"",
@@ -15,12 +18,49 @@ export default class ApplyTender extends Component{
     handleChange = (event) => {
         this.setState({
             [event.target.name] : event.target.value,
-        })
+
+        });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
+        
+        axios.defaults.headers.common["Authorization"] = localStorage.FBIdToken;
+        const data = {
+            // headers: {
+            //     Authorization: localStorage.FBIdToken
+            // },
+            // body: {
+                fcn: "createTender",
+                peers: ["peer0.bidder.tendersys.com", "peer0.gov.tendersys.com"],
+                chaincodeName: "tendersys",
+                channelName: "bidchannel",
+                args: [
+                    this.state.key, 
+                    this.state.title,
+                    this.state.organizationName,
+                    "tender",	//TenderRef
+                    this.state.tenderDescription,
+                    this.state.location,
+                    this.state.tenderCategory,
+                    this.state.validity,
+                    this.state.startDate,
+                    this.state.lastDate,
+                    new Date().toISOString()	//PublishDate
+                ]
+            // }	
+        }
+
+        axios.post('http://localhost:4000/channels/bidchannel/chaincodes/tendersys', data)
+            .then(res => {
+                console.log(res.data);
+                alert(res.data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        
     }
 
     render()
@@ -37,6 +77,10 @@ export default class ApplyTender extends Component{
         <div className="row">
             <form style={styles} className="col-8 col-md-6 offset-2 offset-md-3" onSubmit={this.handleSubmit}>
                 <div className="form-group">
+                    <label for="key">Tender Key</label>
+                    <input type="text" className="form-control" name="key" onChange={this.handleChange} />
+                </div>
+                <div className="form-group">
                     <label for="title">Tender Name</label>
                     <input type="text" className="form-control" name="title" onChange={this.handleChange} />
                 </div>
@@ -46,12 +90,14 @@ export default class ApplyTender extends Component{
                 </div>
                 <div className="form-group">
                     <label for="tendorCategory">Tender Category</label>
-                    <select class="form-control">
-                        <option>Category A</option>
-                        <option>Category B</option>
-                        <option>Category C</option>
-                        <option>Category D</option>
-                    </select>
+                    {/* <select class="form-control" name="tenderCategory" onChange={this.handleChange} value={this.state.tenderCategory}>
+                        <option value="Category A">Category A</option>
+                        <option value="Category B">Category B</option>
+                        <option value="Category C">Category C</option>
+                        <option value="Category D">Category D</option>
+                    </select> */}
+                    <input type="text" className="form-control" name="tenderCategory" onChange={this.handleChange} />
+
                 </div>
                 <div className="form-group">
                     <label for="bid-date">Tender Dates</label>
@@ -63,12 +109,13 @@ export default class ApplyTender extends Component{
                 </div>
                 <div className="form-group">
                     <label for="location">Location</label>
-                    <select class="form-control" name="location">
+                    {/* <select class="form-control" name="location">
                         <option>Mumbai</option>
                         <option>Chennai</option>
                         <option>Banglore</option>
                         <option>Other</option>
-                    </select>
+                    </select> */}
+                    <input type="text" className="form-control" name="location" onChange={this.handleChange} />
                 </div>
                 <div className="form-group">
                     <label for="tenderDescription">Tender Description</label>

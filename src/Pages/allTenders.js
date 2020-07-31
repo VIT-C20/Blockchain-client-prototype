@@ -6,14 +6,14 @@ import axios from 'axios';
 export default class AllTenders extends Component{
   state = {
     tenders: [
-      {
-        title:"Tender A",
-        description:"This is sample dscription related to tender A",
-      },
-      {
-        title:"TEnder B",
-        description:"This is a sample description related to Tender B"
-      }
+      // {
+      //   title:"Tender A",
+      //   description:"This is sample dscription related to tender A",
+      // },
+      // {
+      //   title:"Tender B",
+      //   description:"This is a sample description related to Tender B"
+      // }
     ],
   }
 
@@ -32,9 +32,9 @@ export default class AllTenders extends Component{
     })
     .then(res => {
       console.log(res.data);
-      // this.setState({
-      //   tenders:res.data,
-      // })
+      this.setState({
+        tenders:res.data,
+      })
     }).catch(err => {
 
       console.log(err.message);
@@ -43,7 +43,8 @@ export default class AllTenders extends Component{
 
   render(){
     const all_tenders  = this.state.tenders.map((tender) => {
-      return <TenderCard title={tender.title} description={tender.description}/>
+      
+      return <TenderCard title={tender.Record.title} description={tender.Record.workDescription}/>
     });
 
     return (
